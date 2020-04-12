@@ -1,21 +1,44 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package IntGrafica;
 
-/**
- *
- * @author User
- */
-public class mainFrame extends javax.swing.JFrame {
+import Logica.*;
+import Parametros.Param;
+import java.awt.Color;
+import java.util.ArrayList;
+import javax.swing.JButton;
 
-    /**
-     * Creates new form mainFrame
-     */
+public class mainFrame extends javax.swing.JFrame {
+    Param parametros;
+    Camping camp;
+    ArrayList <Parcela> parcelas;
+    JButton[] botonera;
+
     public mainFrame() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        parametros = new Param(Param.rutaProperties);
+        camp = new Camping();
+        parcelas =camp.getCamping();
+        botonera = new JButton[Param.TOTAL_PARCELAS];
+        for (int i = 0; i < botonera.length; i++) {
+            botonera[i]=new JButton();
+            if(parcelas.get(i) instanceof Bungalow)
+                botonera[i].setText("B " + i);
+            else if(parcelas.get(i) instanceof Caravana)
+                botonera[i].setText("C " + i);
+            else botonera[i].setText("T " + i);
+            botonera[i].setName(""+i);
+            botonera[i].addMouseListener(new java.awt.event.MouseAdapter()  {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+                {FActionPerformed(evt);}}); 
+            PanelCentral.add(botonera[i]);
+        }
+    }
+    
+    public void FActionPerformed(java.awt.event.MouseEvent evt){
+        ((JButton)evt.getSource()).setBackground(Color.red);
     }
 
     /**
@@ -37,7 +60,10 @@ public class mainFrame extends javax.swing.JFrame {
         PanelCentral = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Camping");
+        setMinimumSize(new java.awt.Dimension(600, 600));
 
+        PanelInferior.setBackground(new java.awt.Color(153, 255, 204));
         PanelInferior.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 7, 5));
 
         BotonParametros.setText("Parametros");
@@ -54,6 +80,8 @@ public class mainFrame extends javax.swing.JFrame {
 
         getContentPane().add(PanelInferior, java.awt.BorderLayout.PAGE_END);
 
+        PanelSuperior.setBackground(new java.awt.Color(153, 255, 204));
+
         LabelTitulo.setFont(new java.awt.Font("Cooper Black", 0, 24)); // NOI18N
         LabelTitulo.setForeground(new java.awt.Color(0, 153, 153));
         LabelTitulo.setText("CAMPING DE DDP");
@@ -61,6 +89,9 @@ public class mainFrame extends javax.swing.JFrame {
 
         getContentPane().add(PanelSuperior, java.awt.BorderLayout.PAGE_START);
 
+        PanelCentral.setBackground(new java.awt.Color(153, 255, 204));
+        PanelCentral.setMinimumSize(new java.awt.Dimension(400, 400));
+        PanelCentral.setPreferredSize(new java.awt.Dimension(400, 500));
         PanelCentral.setLayout(new java.awt.GridLayout(10, 8));
         getContentPane().add(PanelCentral, java.awt.BorderLayout.CENTER);
 

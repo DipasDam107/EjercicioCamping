@@ -8,7 +8,7 @@ public class Camping {
 
     ArrayList<Parcela> camping;
 
-    Camping() {
+    public Camping() {
         camping = new ArrayList<>();
         File fichero = new File(Param.rutaCamping);
         if (!fichero.exists()) {
