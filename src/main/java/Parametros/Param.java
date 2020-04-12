@@ -7,6 +7,12 @@ public class Param {
 
     Properties config;
     
+    //Total Parcelas
+    public static int TOTAL_PARCELAS = 80;
+    public static int TOTAL_TIENDAS = 10;
+    public static int TOTAL_BUNGALOS = 50;
+    public static int TOTAL_CARAVANAS = 20;
+    
     //Tienda
     public static int TIENDA_PRECIO_DIARIO = 20;
     public static int TIENDA_PRECIO_ELECTRICIDAD_DIARIO = 1;

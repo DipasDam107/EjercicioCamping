@@ -17,7 +17,7 @@ public class Camping {
         } else {
             
             cargarCamping();
-            System.out.println("Tu Puta madre");
+            
         }
     }
 
@@ -58,17 +58,17 @@ public class Camping {
 
     public void inicializarCamping() {
         // Añado 10 tiendas
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < Param.TOTAL_TIENDAS; i++) {
             camping.add(new Tienda());
         }
 
         // Añado 20 caravanas
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < Param.TOTAL_CARAVANAS; i++) {
             camping.add(new Caravana());
         }
 
         // Añado 50 Bungalos
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < Param.TOTAL_BUNGALOS; i++) {
             camping.add(new Bungalow());
         }
     }

@@ -27,18 +27,42 @@ public class mainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        PanelInferior = new javax.swing.JPanel();
+        BotonParametros = new javax.swing.JButton();
+        BotonAyuda = new javax.swing.JButton();
+        BotonAbout = new javax.swing.JButton();
+        BotonSalir = new javax.swing.JButton();
+        PanelSuperior = new javax.swing.JPanel();
+        LabelTitulo = new javax.swing.JLabel();
+        PanelCentral = new javax.swing.JPanel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        PanelInferior.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 7, 5));
+
+        BotonParametros.setText("Parametros");
+        PanelInferior.add(BotonParametros);
+
+        BotonAyuda.setText("Ayuda");
+        PanelInferior.add(BotonAyuda);
+
+        BotonAbout.setText("About");
+        PanelInferior.add(BotonAbout);
+
+        BotonSalir.setText("Salir");
+        PanelInferior.add(BotonSalir);
+
+        getContentPane().add(PanelInferior, java.awt.BorderLayout.PAGE_END);
+
+        LabelTitulo.setFont(new java.awt.Font("Cooper Black", 0, 24)); // NOI18N
+        LabelTitulo.setForeground(new java.awt.Color(0, 153, 153));
+        LabelTitulo.setText("CAMPING DE DDP");
+        PanelSuperior.add(LabelTitulo);
+
+        getContentPane().add(PanelSuperior, java.awt.BorderLayout.PAGE_START);
+
+        PanelCentral.setLayout(new java.awt.GridLayout(10, 8));
+        getContentPane().add(PanelCentral, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -79,5 +103,13 @@ public class mainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BotonAbout;
+    private javax.swing.JButton BotonAyuda;
+    private javax.swing.JButton BotonParametros;
+    private javax.swing.JButton BotonSalir;
+    private javax.swing.JLabel LabelTitulo;
+    private javax.swing.JPanel PanelCentral;
+    private javax.swing.JPanel PanelInferior;
+    private javax.swing.JPanel PanelSuperior;
     // End of variables declaration//GEN-END:variables
 }
