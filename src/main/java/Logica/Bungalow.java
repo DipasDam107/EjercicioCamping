@@ -13,25 +13,9 @@ public class Bungalow extends Parcela{
    
     Bungalow(){
         super();
-        acompaniantes=new ArrayList<>();
+        acompaniantes=null;
     }
     
-    @Override
-    public boolean checkIn(Cliente cli) {
-        super.checkIn(cli);
-        int acompaniantes;
-        System.out.println("Cuantos acompañantes tienes: ");
-        acompaniantes=teclado.nextInt();
-        teclado.nextLine();
-        
-        for (int i = 0; i < acompaniantes; i++) {
-            Cliente acomp;
-            do{
-                acomp=cosas.introducirCliente();
-            }while(acomp==null);
-        }
-        return true;
-    }
 
     @Override
     public double checkOut(Param param) {
@@ -43,20 +27,26 @@ public class Bungalow extends Parcela{
         double desc = param.BUNGALOW_PORCENTAJE_RECARGO /100d;
         for(Cliente acomp : acompaniantes){
             int edad = (int)ChronoUnit.YEARS.between(acomp.getfecNac(), LocalDate.now());
-       
-            
+ 
             if(edad > param.BUNGALOW_EDAD_MAYOR_INFANTIL)  total+=param.BUNGALOW_PRECIO_INDIVIDUAL;
             else total+=param.BUNGALOW_PRECIO_INFANTIL;
-            
-            
+         
         }
         if(noches <= param.BUNGALOW_NOCHES_RECARGO) total += total +(total * desc);
-        
+        super.checkOut(param);
+        acompaniantes=null;
         return total;
         }
         else return -1d;
         }
 
+    public void addAcompaniantes(ArrayList <Cliente> acomp) {
+        acompaniantes = new ArrayList<>();
+        for (Cliente x : acomp) {
+            acompaniantes.add(x);
+        }
+    }
+    
     public ArrayList<Cliente> getAcompaniantes() {
         return acompaniantes;
     }

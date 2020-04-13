@@ -9,18 +9,26 @@ import Logica.Parcela;
 import java.time.LocalDate;
 import Excepciones.*;
 import static Excepciones.Comprobaciones.*;
+import Logica.Bungalow;
 import Logica.Cliente;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class addAcompaniante extends javax.swing.JDialog {
 
    
     Parcela parcela;
+    int acompaniantes;
+    int cont;
     
-    public addAcompaniante(java.awt.Frame parent, boolean modal, Parcela parcela) {
+    public addAcompaniante(java.awt.Frame parent, boolean modal, Parcela parcela, int acompaniantes) {
         super(parent, modal);
         initComponents();
+        cont=1;
+        jLabel1.setText("Acompañante " + cont);
+        this.acompaniantes=acompaniantes;
         this.parcela=parcela;
+        
         LabelSistema.setText(this.parcela.toString());
     }
 
@@ -124,6 +132,7 @@ public class addAcompaniante extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCancelarActionPerformed
+        
         dispose();
     }//GEN-LAST:event_BotonCancelarActionPerformed
 
@@ -133,8 +142,9 @@ public class addAcompaniante extends javax.swing.JDialog {
 
     private void BotonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonConfirmarActionPerformed
         String nombre="", telefono="", dni="", fecNac="";
-        
+        ArrayList<Cliente> acomp = new ArrayList<>();
         boolean correcto=true;
+        
         try{
             nombre=TextNombre.getText();
             if(!comprobarNombre(nombre)) throw new NombreException(); 
@@ -149,8 +159,17 @@ public class addAcompaniante extends javax.swing.JDialog {
             correcto=false;
         }finally{
             if(correcto){
-                parcela.checkIn(new Cliente(nombre, dni, telefono, LocalDate.parse(fecNac)));
-                dispose();
+                acomp.add(new Cliente(nombre, dni, telefono, LocalDate.parse(fecNac)));
+                if(cont==acompaniantes){ 
+                    ((Bungalow)parcela).addAcompaniantes(acomp);
+                    dispose();
+                }
+                cont++;
+                jLabel1.setText("Acompañante " + cont);
+                TextDNI.setText("");
+                TextNombre.setText("");
+                TextTelefono.setText("");
+                TextFecha.setText("aaaa-mm-dd");
             }
         }
     }//GEN-LAST:event_BotonConfirmarActionPerformed
@@ -184,7 +203,7 @@ public class addAcompaniante extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                addAcompaniante dialog = new addAcompaniante(new javax.swing.JFrame(), true, null);
+                addAcompaniante dialog = new addAcompaniante(new javax.swing.JFrame(), true, null, 0);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

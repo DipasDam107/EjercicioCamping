@@ -96,6 +96,8 @@ public class Ficheros {
     }
     
     //HISTORICO CHECKOUTs
-    public void guardarEntrada() {}
+    public void guardarEntrada(Parcela parcela){
+        //dni huésped principal, número de parcela, tipo de parcela, fecha de entrada, fecha de salida, importe pagado. 
+    }
     public void cargarEntrada() {}
 }

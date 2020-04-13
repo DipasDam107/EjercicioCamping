@@ -17,7 +17,6 @@ import java.util.ArrayList;
 
 public class AlquilarBungalow extends javax.swing.JDialog {
 
-   
     Parcela parcela;
     Param param;
     public AlquilarBungalow(java.awt.Frame parent, boolean modal, Parcela parcela, Param param) {
@@ -165,15 +164,21 @@ public class AlquilarBungalow extends javax.swing.JDialog {
             if(correcto){
                 int num=Integer.valueOf(acompaniantes);
                 int cont=0;
-                ArrayList <Cliente> acomp = new ArrayList<>();
+                Bungalow bung = (Bungalow)parcela;
                 boolean valido=true;
-                while(valido && cont<num){
-                    addAcompaniante dialog = new addAcompaniante(new javax.swing.JFrame(),true, parcela);
-                    if(bung.getAcompaniantes().get(cont)==null) valido=false;
-                    else cont++;
+                addAcompaniante dialog = new addAcompaniante(new javax.swing.JFrame(),true, parcela, num);
+                dialog.setVisible(true);
+                if(bung.getAcompaniantes()==null) valido=false;
+                
+                if(valido){
+                       parcela.checkIn(new Cliente(nombre, dni, telefono, LocalDate.parse(fecNac)));
+                       dispose();
+                } 
+                else{
+                    LabelSistema.setText("Se ha producido un error con acompañantes");
                 }
-                if(valido) 
             }
+            
         }
     }//GEN-LAST:event_BotonConfirmarActionPerformed
 

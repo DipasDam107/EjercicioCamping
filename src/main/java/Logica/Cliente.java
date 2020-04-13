@@ -8,6 +8,7 @@ public class Cliente {
     String telefono;
     LocalDate fecNac;
     
+    
     public Cliente(String nombre, String dni, String telefono, LocalDate fecNac){
         this.nombre=nombre;
         this.dni=dni;

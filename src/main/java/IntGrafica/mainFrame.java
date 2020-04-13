@@ -49,8 +49,12 @@ public class mainFrame extends javax.swing.JFrame {
         int pos = Integer.valueOf(((JButton) evt.getSource()).getName());
         Parcela parcela = parcelas.get(pos);
         if(parcela.isOcupado()){
-            LibrarParcela dialog = new LibrarParcela(new javax.swing.JFrame(), true); 
-            dialog.setVisible(true);
+            
+            int input = JOptionPane.showConfirmDialog(null, "Aviso", "Quieres librar la parcela?",
+				JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            if(input == JOptionPane.YES_OPTION){
+                System.out.println("Vamos por aca");
+            }
         }
         else{
             if(parcela instanceof Bungalow){
