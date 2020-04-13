@@ -6,15 +6,16 @@ import static Logica.cosas.*;
 import java.io.Serializable;
 
 public abstract class Parcela implements iAlquilable, Serializable {
-
+    int numero;
     boolean ocupado;
     LocalDateTime fechaOcupado;
     Cliente cliente;
 
-    Parcela() {
+    Parcela(int numero) {
         this.ocupado=false;
         this.fechaOcupado = null;
         this.cliente = null;
+        this.numero=numero;
     }
 
     @Override
@@ -22,7 +23,7 @@ public abstract class Parcela implements iAlquilable, Serializable {
         if (!ocupado) {
             ocupado = true;
             fechaOcupado = LocalDateTime.now();
-           
+            this.cliente=new Cliente(cli.dni,cli.nombre,cli.telefono,cli.fecNac);
             return true;
         } else {
             return false;
@@ -59,6 +60,10 @@ public abstract class Parcela implements iAlquilable, Serializable {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public int getNumero() {
+        return numero;
     }
     
     @Override

@@ -166,8 +166,13 @@ public class AlquilarBungalow extends javax.swing.JDialog {
                 int cont=0;
                 Bungalow bung = (Bungalow)parcela;
                 boolean valido=true;
-                addAcompaniante dialog = new addAcompaniante(new javax.swing.JFrame(),true, parcela, num);
-                dialog.setVisible(true);
+                if(num!=0){
+                    addAcompaniante dialog = new addAcompaniante(new javax.swing.JFrame(),true, parcela, num);
+                    dialog.setVisible(true);
+                }else bung.addAcompaniantes(new ArrayList<Cliente>());
+                
+                
+                
                 if(bung.getAcompaniantes()==null) valido=false;
                 
                 if(valido){

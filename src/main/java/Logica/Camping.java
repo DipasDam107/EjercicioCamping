@@ -57,19 +57,23 @@ public class Camping {
     }
 */
     public void inicializarCamping() {
+        int cont =1;
         // Añado 10 tiendas
         for (int i = 0; i < Param.TOTAL_TIENDAS; i++) {
-            camping.add(new Tienda());
+            camping.add(new Tienda(cont));
+            cont++;
         }
 
         // Añado 20 caravanas
         for (int i = 0; i < Param.TOTAL_CARAVANAS; i++) {
-            camping.add(new Caravana());
+            camping.add(new Caravana(cont));
+            cont++;
         }
 
         // Añado 50 Bungalos
         for (int i = 0; i < Param.TOTAL_BUNGALOS; i++) {
-            camping.add(new Bungalow());
+            camping.add(new Bungalow(cont));
+            cont++;
         }
     }
 

@@ -72,7 +72,7 @@ public class Comprobaciones {
     public static boolean comprobarNumPersonas(String num, Param param){
         try{
             int numPersonas=Integer.valueOf(num);
-            if(numPersonas>param.BUNGALOW_MAX_ACOMPANIANTES) return false;
+            if(numPersonas>param.BUNGALOW_MAX_ACOMPANIANTES || numPersonas < 0) return false;
             else return true;
         }catch(Exception e){
             return false;

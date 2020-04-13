@@ -25,10 +25,9 @@ public class addAcompaniante extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         cont=1;
-        jLabel1.setText("Acompañante " + cont);
         this.acompaniantes=acompaniantes;
         this.parcela=parcela;
-        
+        jLabel1.setText("Acompaniantes " + cont + " de " + this.acompaniantes);
         LabelSistema.setText(this.parcela.toString());
     }
 
@@ -165,8 +164,8 @@ public class addAcompaniante extends javax.swing.JDialog {
                     dispose();
                 }
                 cont++;
-                jLabel1.setText("Acompañante " + cont);
-                TextDNI.setText("");
+                jLabel1.setText("Acompaniantes " + cont + " de " + acompaniantes);
+                TextDNI.setText("11111111A");
                 TextNombre.setText("");
                 TextTelefono.setText("");
                 TextFecha.setText("aaaa-mm-dd");

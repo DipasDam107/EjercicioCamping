@@ -1,17 +1,20 @@
-
 package Ficheros;
 
+import Logica.Bungalow;
 import Logica.Parcela;
+import Logica.Tienda;
 import Parametros.Param;
 import java.io.*;
 import java.util.*;
 import static Parametros.Param.*;
+import java.time.LocalDate;
 
 public class Ficheros {
-    
-    
+
+    final static char SEPARADOR = ';';
+
     //PARAMETROS
-    public static void guardarParam(Param param, Properties config){
+    public static void guardarParam(Param param, Properties config) {
         config.setProperty("TIENDA_PRECIO_DIARIO", String.valueOf(param.TIENDA_PRECIO_DIARIO));
         config.setProperty("TIENDA_PRECIO_ELECTRICIDAD_DIARIO", String.valueOf(param.TIENDA_PRECIO_ELECTRICIDAD_DIARIO));
         config.setProperty("TIENDA_DESCUENTO_LARGA_ESTANCIA", String.valueOf(param.TIENDA_DESCUENTO_LARGA_ESTANCIA));
@@ -35,8 +38,9 @@ public class Ficheros {
             System.out.println(e.getMessage());
         }
     }
-    public static void cargarParam(Param param, Properties config){
-    try {
+
+    public static void cargarParam(Param param, Properties config) {
+        try {
             config.load(new FileInputStream(rutaProperties));
             param.TIENDA_PRECIO_DIARIO = Integer.valueOf(config.getProperty("TIENDA_PRECIO_DIARIO"));
             param.TIENDA_PRECIO_ELECTRICIDAD_DIARIO = Integer.valueOf(config.getProperty("TIENDA_PRECIO_ELECTRICIDAD_DIARIO"));
@@ -58,10 +62,10 @@ public class Ficheros {
             System.out.println(e.getMessage());
         }
     }
-    
+
     //CAMPING
     public static void guardarCamping(ArrayList<Parcela> camping) {
-        try (FileOutputStream fos = new FileOutputStream(rutaCamping,false);
+        try (FileOutputStream fos = new FileOutputStream(rutaCamping, false);
                 BufferedOutputStream bos = new BufferedOutputStream(fos);
                 ObjectOutputStream oos = new ObjectOutputStream(bos)) {
 
@@ -74,7 +78,8 @@ public class Ficheros {
             System.err.println("Error al guardar:" + ex.getMessage());
         }
     }
-    public static ArrayList<Parcela> cargarCamping(){
+
+    public static ArrayList<Parcela> cargarCamping() {
         ArrayList<Parcela> camping = new ArrayList<>();
         camping.clear();
         boolean eof = false;
@@ -89,15 +94,35 @@ public class Ficheros {
             eof = true;
         } catch (IOException ex) {
             System.err.println("Error:" + ex.getMessage());
-        }catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
             System.err.println("Error:" + ex.getMessage());
         }
         return camping;
     }
-    
+
     //HISTORICO CHECKOUTs
-    public void guardarEntrada(Parcela parcela){
-        //dni huésped principal, número de parcela, tipo de parcela, fecha de entrada, fecha de salida, importe pagado. 
+    public static void guardarEntrada(Parcela parcela, double importe) {
+        try (FileWriter fw = new FileWriter(new File(rutaEntrada), true);
+                BufferedWriter bfw = new BufferedWriter(fw)) {
+            //dni huésped principal, número de parcela, tipo de parcela, fecha de entrada, fecha de salida, importe pagado. 
+            bfw.write(parcela.getCliente().getDni() + SEPARADOR);
+            bfw.write(String.valueOf(parcela.getNumero()) + SEPARADOR);
+            if (parcela instanceof Bungalow) {
+                bfw.write("Bungalow" + SEPARADOR);
+            } else if (parcela instanceof Tienda) {
+                bfw.write("Tienda" + SEPARADOR);
+            } else {
+                bfw.write("Caravana" + SEPARADOR);
+            }
+            bfw.write(parcela.getFechaOcupado() + "" + SEPARADOR);
+            bfw.write(LocalDate.now() + "" + SEPARADOR);
+            bfw.write(importe + "" + SEPARADOR);
+            bfw.newLine();
+            bfw.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
     }
-    public void cargarEntrada() {}
+
 }

@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import static Parametros.Param.*;
 import static Ficheros.Ficheros.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import javax.swing.JOptionPane;
 
 public class mainFrame extends javax.swing.JFrame {
@@ -26,13 +29,15 @@ public class mainFrame extends javax.swing.JFrame {
         botonera = new JButton[TOTAL_PARCELAS];
         for (int i = 0; i < botonera.length; i++) {
             botonera[i] = new JButton();
-            if(parcelas.get(i).isOcupado()) botonera[i].setBackground(Color.red);
+            if (parcelas.get(i).isOcupado()) {
+                botonera[i].setBackground(Color.red);
+            }
             if (parcelas.get(i) instanceof Bungalow) {
-                botonera[i].setText("B " + i);
+                botonera[i].setText("B " + parcelas.get(i).getNumero());
             } else if (parcelas.get(i) instanceof Caravana) {
-                botonera[i].setText("C " + i);
+                botonera[i].setText("C " + parcelas.get(i).getNumero());
             } else {
-                botonera[i].setText("T " + i);
+                botonera[i].setText("T " + parcelas.get(i).getNumero());
             }
             botonera[i].setName("" + i);
             botonera[i].addMouseListener(new java.awt.event.MouseAdapter() {
@@ -48,30 +53,41 @@ public class mainFrame extends javax.swing.JFrame {
     public void FActionPerformed(java.awt.event.MouseEvent evt) {
         int pos = Integer.valueOf(((JButton) evt.getSource()).getName());
         Parcela parcela = parcelas.get(pos);
-        if(parcela.isOcupado()){
-            
-            int input = JOptionPane.showConfirmDialog(null, "Aviso", "Quieres librar la parcela?",
-				JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-            if(input == JOptionPane.YES_OPTION){
-                System.out.println("Vamos por aca");
+        if (parcela.isOcupado()) {
+            if (parcela instanceof Caravana && ChronoUnit.DAYS.between(parcela.getFechaOcupado(), LocalDateTime.now()) > 100) {
+                JOptionPane.showConfirmDialog(null, "Error", "Se debe permanecer un minimo de 10 dias en la Caravana",
+                        JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+            } else {
+                int input = JOptionPane.showConfirmDialog(null, "¿Quieres hacer Check Out de la parcela?", "Aviso",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if (input == JOptionPane.YES_OPTION) {
+                    double importe = parcela.checkOut(parametros);
+                    if(importe==-1){
+                        JOptionPane.showConfirmDialog(null, "Se ha producido un error en el checkout", "Error",
+                        JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+                    }else{
+                    JOptionPane.showConfirmDialog(null, "Se ha procedido al checkout. El importe asciende a " + importe + " €", "Aviso",
+                        JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                        if (!parcela.isOcupado()) {
+                            ((JButton) evt.getSource()).setBackground(Color.lightGray);
             }
-        }
-        else{
-            if(parcela instanceof Bungalow){
-                AlquilarBungalow dialog = new AlquilarBungalow(new javax.swing.JFrame(), true, parcela, parametros); 
+                    }
+                        
+                }
+            }
+        } else {
+            if (parcela instanceof Bungalow) {
+                AlquilarBungalow dialog = new AlquilarBungalow(new javax.swing.JFrame(), true, parcela, parametros);
+                dialog.setVisible(true);
+            } else {
+                AlquilarParcela dialog = new AlquilarParcela(new javax.swing.JFrame(), true, parcela);
                 dialog.setVisible(true);
             }
-            else{
-                AlquilarParcela dialog = new AlquilarParcela(new javax.swing.JFrame(), true, parcela); 
-                dialog.setVisible(true);
+            if (parcela.isOcupado()) {
+                ((JButton) evt.getSource()).setBackground(Color.red);
             }
-            if(parcela.isOcupado()) ((JButton) evt.getSource()).setBackground(Color.red);
         }
-        
-        
-        
-        
-        
+
     }
 
     /**
@@ -142,11 +158,11 @@ public class mainFrame extends javax.swing.JFrame {
             System.out.println("El usuario confirma la operación");
             guardarCamping(parcelas);
             System.exit(0);
-        }else if(respuesta == JOptionPane.NO_OPTION){
+        } else if (respuesta == JOptionPane.NO_OPTION) {
             System.exit(0);
         }
-        
-        
+
+
     }//GEN-LAST:event_BotonSalirMouseClicked
 
     /**
