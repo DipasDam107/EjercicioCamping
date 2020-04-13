@@ -1,5 +1,6 @@
 package Logica;
 
+import static Ficheros.Ficheros.*;
 import Parametros.Param;
 import java.io.*;
 import java.util.ArrayList;
@@ -13,14 +14,13 @@ public class Camping {
         File fichero = new File(Param.rutaCamping);
         if (!fichero.exists()) {
             inicializarCamping();
-            guardarCamping();
+            guardarCamping(camping);
         } else {
-            
-            cargarCamping();
-            
+            camping=cargarCamping();
         }
     }
 
+    /*
     public void guardarCamping() {
         try (FileOutputStream fos = new FileOutputStream(Param.rutaCamping, false);
                 BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -55,7 +55,7 @@ public class Camping {
         }
 
     }
-
+*/
     public void inicializarCamping() {
         // Añado 10 tiendas
         for (int i = 0; i < Param.TOTAL_TIENDAS; i++) {

@@ -14,15 +14,15 @@ public class Caravana extends Parcela {
         int dias = (int) ChronoUnit.DAYS.between(fechaOcupado, LocalDateTime.now());
         
         //Estancia minima de 10 dias, en caso contrario no hay checkout
-        if (this.ocupado && dias >= Param.CARAVANA_MINIMO_DIAS_ESTANCIA) {
+        if (this.ocupado && dias >= param.CARAVANA_MINIMO_DIAS_ESTANCIA) {
             int mes = LocalDateTime.now().getMonthValue();
             super.checkOut(param);
            
             //Si sale en agosto paga mas
             if(mes == 8) 
-                return dias * Param.CARAVANA_PRECIO_DIARIO_SALIDA_AGOSTO;
+                return dias * param.CARAVANA_PRECIO_DIARIO_SALIDA_AGOSTO;
             else 
-                return dias * Param.CARAVANA_PRECIO_DIARIO_RESTO;
+                return dias * param.CARAVANA_PRECIO_DIARIO_RESTO;
             
 
         }else 

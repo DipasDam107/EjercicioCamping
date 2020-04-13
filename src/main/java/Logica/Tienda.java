@@ -16,14 +16,14 @@ public class Tienda extends Parcela{
         if(this.ocupado){
             int dias = (int)ChronoUnit.DAYS.between(fechaOcupado, LocalDateTime.now());
             super.checkOut(param);
-            if(dias>Param.TIENDA_DIAS_LARGA_ESTANCIA){
-                double desc = Param.TIENDA_DESCUENTO_LARGA_ESTANCIA / 100;
-                double precio = (double)((Param.TIENDA_PRECIO_DIARIO + Param.TIENDA_PRECIO_ELECTRICIDAD_DIARIO) * dias);
+            if(dias>param.TIENDA_DIAS_LARGA_ESTANCIA){
+                double desc = param.TIENDA_DESCUENTO_LARGA_ESTANCIA / 100;
+                double precio = (double)((param.TIENDA_PRECIO_DIARIO + param.TIENDA_PRECIO_ELECTRICIDAD_DIARIO) * dias);
                 return precio - (precio*desc);
             }
                 
             else
-                return (double)((Param.TIENDA_PRECIO_DIARIO + Param.TIENDA_PRECIO_ELECTRICIDAD_DIARIO) * dias);
+                return (double)((param.TIENDA_PRECIO_DIARIO + param.TIENDA_PRECIO_ELECTRICIDAD_DIARIO) * dias);
             
             
         }

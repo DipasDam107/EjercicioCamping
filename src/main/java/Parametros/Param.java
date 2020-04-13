@@ -2,55 +2,79 @@ package Parametros;
 
 import java.io.*;
 import java.util.Properties;
-
+import static Ficheros.Ficheros.*;
 public class Param {
 
     Properties config;
-    
+
     //Total Parcelas
-    public static int TOTAL_PARCELAS = 80;
-    public static int TOTAL_TIENDAS = 10;
-    public static int TOTAL_BUNGALOS = 50;
-    public static int TOTAL_CARAVANAS = 20;
-    
+    public static int TOTAL_PARCELAS=80;
+    public static int TOTAL_TIENDAS=10;
+    public static int TOTAL_BUNGALOS=50;
+    public static int TOTAL_CARAVANAS=20;
+
     //Tienda
-    public static int TIENDA_PRECIO_DIARIO = 20;
-    public static int TIENDA_PRECIO_ELECTRICIDAD_DIARIO = 1;
-    public static int TIENDA_DESCUENTO_LARGA_ESTANCIA = 10; // Descuento para estancias de mas de 7 dias
-    public static int TIENDA_DIAS_LARGA_ESTANCIA = 7;
+    public int TIENDA_PRECIO_DIARIO;
+    public int TIENDA_PRECIO_ELECTRICIDAD_DIARIO;
+    public int TIENDA_DESCUENTO_LARGA_ESTANCIA; // Descuento para estancias de mas de 7 dias
+    public int TIENDA_DIAS_LARGA_ESTANCIA;
 
     //Caravana
-    public static int CARAVANA_PRECIO_DIARIO_SALIDA_AGOSTO = 50;
-    public static int CARAVANA_PRECIO_DIARIO_RESTO = 30;
-    public static int CARAVANA_MINIMO_DIAS_ESTANCIA = 10; // Si no cumple el minimo no se permite checkout
+    public int CARAVANA_PRECIO_DIARIO_SALIDA_AGOSTO;
+    public int CARAVANA_PRECIO_DIARIO_RESTO;
+    public int CARAVANA_MINIMO_DIAS_ESTANCIA; // Si no cumple el minimo no se permite checkout
 
     //Bungalow
-    public static int BUNGALOW_PRECIO_INDIVIDUAL = 20;
-    public static int BUNGALOW_PRECIO_INFANTIL = 0;
-    public static int BUNGALOW_PORCENTAJE_RECARGO = 20; //Si se queda 1 o 2 noches, debe pagar recargo
-    public static int BUNGALOW_NOCHES_RECARGO = 2;
-    public static int BUNGALOW_EDAD_MAYOR_INFANTIL = 5;
-    
+    public int BUNGALOW_PRECIO_INDIVIDUAL;
+    public int BUNGALOW_PRECIO_INFANTIL;
+    public int BUNGALOW_PORCENTAJE_RECARGO; //Si se queda 1 o 2 noches, debe pagar recargo
+    public int BUNGALOW_NOCHES_RECARGO;
+    public int BUNGALOW_EDAD_MAYOR_INFANTIL;
+    public int BUNGALOW_MAX_ACOMPANIANTES;
+
     //Rutas
     public static String separador = System.getProperty("file.separator");
     public static String rutaProperties = "." + separador + "data" + separador + "parametros.txt";
     public static String rutaCamping = "." + separador + "data" + separador + "camping.dat";
+    public static String rutaEntrada = "." + separador + "data" + separador + "historico.csv";
 
     public Param(String ruta) {
         // Comprueba si existe un archivo de parametros
-            
+
         File archivo = new File(ruta);
         config = new Properties();
         if (archivo.exists()) {
             //Si existe lo carga a las variables estaticas
-            cargarParametros(ruta);
+            cargarParam(this, config);
         } else {
             //Si no existe lo guarda por primera vez con los valores por defecto
-            guardarParametros(ruta);
+            inicializarParametros(ruta);
+            guardarParam(this, config);
         }
 
     }
 
+    public void inicializarParametros(String ruta) {
+        //Tienda
+        TIENDA_PRECIO_DIARIO = 20;
+        TIENDA_PRECIO_ELECTRICIDAD_DIARIO = 1;
+        TIENDA_DESCUENTO_LARGA_ESTANCIA = 10; // Descuento para estancias de mas de 7 dias
+        TIENDA_DIAS_LARGA_ESTANCIA = 7;
+
+        //Caravana
+        CARAVANA_PRECIO_DIARIO_SALIDA_AGOSTO = 50;
+        CARAVANA_PRECIO_DIARIO_RESTO = 30;
+        CARAVANA_MINIMO_DIAS_ESTANCIA = 10; // Si no cumple el minimo no se permite checkout
+
+        //Bungalow
+        BUNGALOW_PRECIO_INDIVIDUAL = 20;
+        BUNGALOW_PRECIO_INFANTIL = 0;
+        BUNGALOW_PORCENTAJE_RECARGO = 20; //Si se queda 1 o 2 noches, debe pagar recargo
+        BUNGALOW_NOCHES_RECARGO = 2;
+        BUNGALOW_EDAD_MAYOR_INFANTIL = 5;
+        BUNGALOW_MAX_ACOMPANIANTES = 8;
+    }
+    /*
     public void cargarParametros(String ruta) {
         try {
             config.load(new FileInputStream(ruta));
@@ -97,4 +121,5 @@ public class Param {
             System.out.println(e.getMessage());
         }
     }
+*/
 }

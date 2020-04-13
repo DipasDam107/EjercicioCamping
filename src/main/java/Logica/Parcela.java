@@ -36,6 +36,30 @@ public abstract class Parcela implements iAlquilable, Serializable {
         cliente= null;
         return 0d;
     }
+
+    public boolean isOcupado() {
+        return ocupado;
+    }
+
+    public LocalDateTime getFechaOcupado() {
+        return fechaOcupado;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setOcupado(boolean ocupado) {
+        this.ocupado = ocupado;
+    }
+
+    public void setFechaOcupado(LocalDateTime fechaOcupado) {
+        this.fechaOcupado = fechaOcupado;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
     
     @Override
     public String toString(){

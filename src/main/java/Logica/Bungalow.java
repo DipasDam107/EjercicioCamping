@@ -13,6 +13,7 @@ public class Bungalow extends Parcela{
    
     Bungalow(){
         super();
+        acompaniantes=new ArrayList<>();
     }
     
     @Override
@@ -37,24 +38,29 @@ public class Bungalow extends Parcela{
         
         if(this.ocupado){
         //Sabemos que quien lo alquila es mayor de edad
-        double total=Param.BUNGALOW_PRECIO_INDIVIDUAL;
+        double total=param.BUNGALOW_PRECIO_INDIVIDUAL;
         int noches = (int)ChronoUnit.DAYS.between(fechaOcupado, LocalDateTime.now());
-        double desc = Param.BUNGALOW_PORCENTAJE_RECARGO /100d;
+        double desc = param.BUNGALOW_PORCENTAJE_RECARGO /100d;
         for(Cliente acomp : acompaniantes){
             int edad = (int)ChronoUnit.YEARS.between(acomp.getfecNac(), LocalDate.now());
        
             
-            if(edad > Param.BUNGALOW_EDAD_MAYOR_INFANTIL)  total+=Param.BUNGALOW_PRECIO_INDIVIDUAL;
-            else total+=Param.BUNGALOW_PRECIO_INFANTIL;
+            if(edad > param.BUNGALOW_EDAD_MAYOR_INFANTIL)  total+=param.BUNGALOW_PRECIO_INDIVIDUAL;
+            else total+=param.BUNGALOW_PRECIO_INFANTIL;
             
             
         }
-        if(noches <= Param.BUNGALOW_NOCHES_RECARGO) total += total +(total * desc);
+        if(noches <= param.BUNGALOW_NOCHES_RECARGO) total += total +(total * desc);
         
         return total;
         }
         else return -1d;
         }
+
+    public ArrayList<Cliente> getAcompaniantes() {
+        return acompaniantes;
+    }
+    
     
     @Override
     public String toString(){

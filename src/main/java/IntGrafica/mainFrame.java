@@ -1,4 +1,3 @@
-
 package IntGrafica;
 
 import Logica.*;
@@ -6,39 +5,69 @@ import Parametros.Param;
 import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JButton;
+import static Parametros.Param.*;
+import static Ficheros.Ficheros.*;
+import javax.swing.JOptionPane;
 
 public class mainFrame extends javax.swing.JFrame {
+
     Param parametros;
     Camping camp;
-    ArrayList <Parcela> parcelas;
+    ArrayList<Parcela> parcelas;
     JButton[] botonera;
 
     public mainFrame() {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        parametros = new Param(Param.rutaProperties);
+        parametros = new Param(rutaProperties);
         camp = new Camping();
-        parcelas =camp.getCamping();
-        botonera = new JButton[Param.TOTAL_PARCELAS];
+        parcelas = camp.getCamping();
+        botonera = new JButton[TOTAL_PARCELAS];
         for (int i = 0; i < botonera.length; i++) {
-            botonera[i]=new JButton();
-            if(parcelas.get(i) instanceof Bungalow)
+            botonera[i] = new JButton();
+            if(parcelas.get(i).isOcupado()) botonera[i].setBackground(Color.red);
+            if (parcelas.get(i) instanceof Bungalow) {
                 botonera[i].setText("B " + i);
-            else if(parcelas.get(i) instanceof Caravana)
+            } else if (parcelas.get(i) instanceof Caravana) {
                 botonera[i].setText("C " + i);
-            else botonera[i].setText("T " + i);
-            botonera[i].setName(""+i);
-            botonera[i].addMouseListener(new java.awt.event.MouseAdapter()  {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-                {FActionPerformed(evt);}}); 
+            } else {
+                botonera[i].setText("T " + i);
+            }
+            botonera[i].setName("" + i);
+            botonera[i].addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    FActionPerformed(evt);
+                }
+            });
             PanelCentral.add(botonera[i]);
         }
     }
-    
-    public void FActionPerformed(java.awt.event.MouseEvent evt){
-        ((JButton)evt.getSource()).setBackground(Color.red);
+
+    public void FActionPerformed(java.awt.event.MouseEvent evt) {
+        int pos = Integer.valueOf(((JButton) evt.getSource()).getName());
+        Parcela parcela = parcelas.get(pos);
+        if(parcela.isOcupado()){
+            LibrarParcela dialog = new LibrarParcela(new javax.swing.JFrame(), true); 
+            dialog.setVisible(true);
+        }
+        else{
+            if(parcela instanceof Bungalow){
+                AlquilarBungalow dialog = new AlquilarBungalow(new javax.swing.JFrame(), true, parcela, parametros); 
+                dialog.setVisible(true);
+            }
+            else{
+                AlquilarParcela dialog = new AlquilarParcela(new javax.swing.JFrame(), true, parcela); 
+                dialog.setVisible(true);
+            }
+            if(parcela.isOcupado()) ((JButton) evt.getSource()).setBackground(Color.red);
+        }
+        
+        
+        
+        
+        
     }
 
     /**
@@ -76,6 +105,11 @@ public class mainFrame extends javax.swing.JFrame {
         PanelInferior.add(BotonAbout);
 
         BotonSalir.setText("Salir");
+        BotonSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BotonSalirMouseClicked(evt);
+            }
+        });
         PanelInferior.add(BotonSalir);
 
         getContentPane().add(PanelInferior, java.awt.BorderLayout.PAGE_END);
@@ -97,6 +131,19 @@ public class mainFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void BotonSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BotonSalirMouseClicked
+        int respuesta = JOptionPane.showConfirmDialog(this, "Vas a Salir del programa. Quieres guardar?");
+        if (respuesta == JOptionPane.OK_OPTION) {
+            System.out.println("El usuario confirma la operación");
+            guardarCamping(parcelas);
+            System.exit(0);
+        }else if(respuesta == JOptionPane.NO_OPTION){
+            System.exit(0);
+        }
+        
+        
+    }//GEN-LAST:event_BotonSalirMouseClicked
 
     /**
      * @param args the command line arguments
