@@ -69,13 +69,13 @@ public class Ficheros {
                 BufferedOutputStream bos = new BufferedOutputStream(fos);
                 ObjectOutputStream oos = new ObjectOutputStream(bos)) {
 
-            for (Parcela x : camping) {
-                System.out.println(x.toString());
+            for (Parcela x : camping) {           
                 oos.writeObject(x);
             }
 
         } catch (IOException ex) {
             System.err.println("Error al guardar:" + ex.getMessage());
+            ex.printStackTrace();
         }
     }
 

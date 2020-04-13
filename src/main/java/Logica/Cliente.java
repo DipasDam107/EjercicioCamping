@@ -1,8 +1,9 @@
 package Logica;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Cliente {
+public class Cliente implements Serializable{
     String nombre;
     String dni;
     String telefono;
