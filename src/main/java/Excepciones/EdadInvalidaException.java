@@ -11,6 +11,6 @@ package Excepciones;
  */
 public class EdadInvalidaException extends Exception {
     public String getMessage() {
-        return "La edad introducida no es valida. Comprueba la fecha de nacimiento";
+        return "Fecha de nacimiento no valida";
     }
 }

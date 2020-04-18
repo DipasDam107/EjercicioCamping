@@ -12,7 +12,6 @@ public class Caravana extends Parcela {
     @Override
     public double checkOut(Param param) {
         int dias = (int) ChronoUnit.DAYS.between(fechaOcupado, LocalDateTime.now());
-        if(dias==0) dias=10;
         //Estancia minima de 10 dias, en caso contrario no hay checkout
         if (this.ocupado && dias >= param.CARAVANA_MINIMO_DIAS_ESTANCIA) {
             int mes = LocalDateTime.now().getMonthValue();

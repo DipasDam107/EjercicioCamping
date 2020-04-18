@@ -7,10 +7,21 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import static Parametros.Param.*;
 import static Ficheros.Ficheros.*;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Properties;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 
 public class mainFrame extends javax.swing.JFrame {
 
@@ -21,8 +32,20 @@ public class mainFrame extends javax.swing.JFrame {
 
     public mainFrame() {
         initComponents();
+        JFrame frame=this;
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int respuesta = JOptionPane.showConfirmDialog(frame, "Estas cerrando la aplicacion. ¿Estas seguro de que quieres salir?","Salir", JOptionPane.OK_CANCEL_OPTION);
+        if (respuesta == JOptionPane.OK_OPTION) {
+            guardarCamping(parcelas);
+            System.exit(0);
+        }
+            }
+        });
         parametros = new Param(rutaProperties);
         camp = new Camping();
         parcelas = camp.getCamping();
@@ -33,12 +56,18 @@ public class mainFrame extends javax.swing.JFrame {
                 botonera[i].setBackground(Color.red);
             }
             if (parcelas.get(i) instanceof Bungalow) {
-                botonera[i].setText("B " + parcelas.get(i).getNumero());
+                botonera[i].setText("" + parcelas.get(i).getNumero());
+                botonera[i].setIcon(new javax.swing.ImageIcon("img/bungalow.png"));
             } else if (parcelas.get(i) instanceof Caravana) {
-                botonera[i].setText("C " + parcelas.get(i).getNumero());
+                botonera[i].setText("" + parcelas.get(i).getNumero());
+                botonera[i].setIcon(new javax.swing.ImageIcon("img/caravana.png"));
             } else {
-                botonera[i].setText("T " + parcelas.get(i).getNumero());
+                botonera[i].setText("" + parcelas.get(i).getNumero());
+                botonera[i].setIcon(new javax.swing.ImageIcon("img/tienda.png"));
             }
+            botonera[i].setVerticalTextPosition(SwingConstants.CENTER);
+            botonera[i].setHorizontalTextPosition(SwingConstants.CENTER);
+            botonera[i].setFont(new Font("Tahoma",Font.BOLD,20));
             botonera[i].setName("" + i);
             botonera[i].addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
@@ -54,9 +83,9 @@ public class mainFrame extends javax.swing.JFrame {
         int pos = Integer.valueOf(((JButton) evt.getSource()).getName());
         Parcela parcela = parcelas.get(pos);
         if (parcela.isOcupado()) {
-            if (parcela instanceof Caravana && ChronoUnit.DAYS.between(parcela.getFechaOcupado(), LocalDateTime.now()) > 100) {
-                JOptionPane.showConfirmDialog(null, "Error", "Se debe permanecer un minimo de 10 dias en la Caravana",
-                        JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+            if (parcela instanceof Caravana && ChronoUnit.DAYS.between(parcela.getFechaOcupado(), LocalDateTime.now()) < parametros.CARAVANA_MINIMO_DIAS_ESTANCIA) {
+                JOptionPane.showConfirmDialog(null, "Se debe permanecer un minimo de "+ parametros.CARAVANA_MINIMO_DIAS_ESTANCIA +" dias en la Caravana", "Error ",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
             } else {
                 int input = JOptionPane.showConfirmDialog(null, "¿Quieres hacer Check Out de la parcela?", "Aviso",
                         JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
@@ -64,13 +93,14 @@ public class mainFrame extends javax.swing.JFrame {
                     double importe = parcela.checkOut(parametros);
                     if(importe==-1){
                         JOptionPane.showConfirmDialog(null, "Se ha producido un error en el checkout", "Error",
-                        JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
                     }else{
-                    JOptionPane.showConfirmDialog(null, "Se ha procedido al checkout. El importe asciende a " + importe + " €", "Aviso",
-                        JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showConfirmDialog(null, "Se ha procedido al checkout. El importe asciende a " + importe + " €", "Check Out Exitoso",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
                         if (!parcela.isOcupado()) {
                             ((JButton) evt.getSource()).setBackground(Color.lightGray);
-            }
+                            guardarCamping(parcelas);
+                        }
                     }
                         
                 }
@@ -85,6 +115,7 @@ public class mainFrame extends javax.swing.JFrame {
             }
             if (parcela.isOcupado()) {
                 ((JButton) evt.getSource()).setBackground(Color.red);
+                guardarCamping(parcelas);
             }
         }
 
@@ -101,6 +132,7 @@ public class mainFrame extends javax.swing.JFrame {
 
         PanelInferior = new javax.swing.JPanel();
         BotonParametros = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         BotonAyuda = new javax.swing.JButton();
         BotonAbout = new javax.swing.JButton();
         BotonSalir = new javax.swing.JButton();
@@ -115,19 +147,57 @@ public class mainFrame extends javax.swing.JFrame {
         PanelInferior.setBackground(new java.awt.Color(153, 255, 204));
         PanelInferior.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 7, 5));
 
-        BotonParametros.setText("Parametros");
+        BotonParametros.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        BotonParametros.setForeground(new java.awt.Color(0, 153, 153));
+        BotonParametros.setText("Edit Param");
+        BotonParametros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonParametrosActionPerformed(evt);
+            }
+        });
         PanelInferior.add(BotonParametros);
 
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(0, 153, 153));
+        jButton1.setText("Cargar Param");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        PanelInferior.add(jButton1);
+
+        BotonAyuda.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        BotonAyuda.setForeground(new java.awt.Color(0, 153, 153));
         BotonAyuda.setText("Ayuda");
+        BotonAyuda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonAyudaActionPerformed(evt);
+            }
+        });
         PanelInferior.add(BotonAyuda);
 
+        BotonAbout.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        BotonAbout.setForeground(new java.awt.Color(0, 153, 153));
         BotonAbout.setText("About");
+        BotonAbout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonAboutActionPerformed(evt);
+            }
+        });
         PanelInferior.add(BotonAbout);
 
+        BotonSalir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        BotonSalir.setForeground(new java.awt.Color(0, 153, 153));
         BotonSalir.setText("Salir");
         BotonSalir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BotonSalirMouseClicked(evt);
+            }
+        });
+        BotonSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonSalirActionPerformed(evt);
             }
         });
         PanelInferior.add(BotonSalir);
@@ -153,17 +223,59 @@ public class mainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BotonSalirMouseClicked
-        int respuesta = JOptionPane.showConfirmDialog(this, "Vas a Salir del programa. Quieres guardar?");
+        int respuesta = JOptionPane.showConfirmDialog(this, "Estas cerrando la aplicacion. ¿Estas seguro de que quieres salir?","Salir", JOptionPane.OK_CANCEL_OPTION);
         if (respuesta == JOptionPane.OK_OPTION) {
-            System.out.println("El usuario confirma la operación");
             guardarCamping(parcelas);
-            System.exit(0);
-        } else if (respuesta == JOptionPane.NO_OPTION) {
             System.exit(0);
         }
 
 
     }//GEN-LAST:event_BotonSalirMouseClicked
+
+    private void BotonAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAboutActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, " Autor: Daniel Di Pasqua\n Fecha:10/04/2020\n Version: 1.0\n GitHub: https://github.com/DipasDam107/EjercicioCamping", "About",JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_BotonAboutActionPerformed
+
+    private void BotonParametrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonParametrosActionPerformed
+        Runtime rs = Runtime.getRuntime();
+		try {
+                        
+			JOptionPane.showConfirmDialog(this, "Edita el archivo parametros.txt con los parametros deseados y luego dale a 'Cargar Param'","Parametros", JOptionPane.DEFAULT_OPTION);
+                        rs.exec("notepad data\\parametros.txt");
+                        
+		}
+		catch (IOException e) {
+			System.out.println(e);
+		}
+    }//GEN-LAST:event_BotonParametrosActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        boolean bien=true;
+        try{
+        File archivo = new File(rutaProperties);
+        Properties config = new Properties();
+        cargarParam(parametros,config);
+        if(bien)
+            JOptionPane.showMessageDialog(this, " Los parametros se han cargado correctamente ", " Cargar Paranetros ",JOptionPane.INFORMATION_MESSAGE);
+    
+        }catch(Exception e){
+            bien=false;
+            JOptionPane.showConfirmDialog(null, "Se ha producido un error al cargar el archivo Param", "Error",
+                        JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+            
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void BotonAyudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAyudaActionPerformed
+         JOptionPane.showMessageDialog(this, " Con este programa usted puede alquilar las parcelas de su camping. \n\nInstrucciones: \n - Las parcelas ocupadas se marcan con color rojo, mientras que las desocupadas se marcan en blanco \n - Las parcelas pueden ser Tiendas, Bungalos o Caravanas, cada una marcada con su respectiva imagen y numero\n - Para hacer Check In simplemente debe pulsar en una parcela desocupada, sea del tipo que sea, y rellenar los datos solicitados (Hay validaciones)\n - Para hacer Checkout debe pulsar en una parcela desocupada y se calculara el importe segun los dias de estadía\n - El programa utiliza parametros que se pueden editar (Edit Param), tras lo cual deberan ser cargados al programa (Cargar Param)", " Ayuda ",JOptionPane.INFORMATION_MESSAGE);
+
+    }//GEN-LAST:event_BotonAyudaActionPerformed
+
+    private void BotonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonSalirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BotonSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -209,5 +321,6 @@ public class mainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel PanelCentral;
     private javax.swing.JPanel PanelInferior;
     private javax.swing.JPanel PanelSuperior;
+    private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }

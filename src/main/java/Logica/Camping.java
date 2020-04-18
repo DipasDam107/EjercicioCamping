@@ -8,9 +8,11 @@ import java.util.ArrayList;
 public class Camping {
 
     ArrayList<Parcela> camping;
-
+    ArrayList<Parcela> checkOuts;
+    
     public Camping() {
         camping = new ArrayList<>();
+        checkOuts = new ArrayList<>();
         File fichero = new File(Param.rutaCamping);
         if (!fichero.exists()) {
             inicializarCamping();
@@ -18,6 +20,10 @@ public class Camping {
         } else {
             camping=cargarCamping();
         }
+    }
+
+    public ArrayList<Parcela> getCheckOuts() {
+        return checkOuts;
     }
 
     /*

@@ -11,6 +11,8 @@ import Excepciones.*;
 import static Excepciones.Comprobaciones.*;
 import Logica.Bungalow;
 import Logica.Cliente;
+import java.awt.Color;
+import java.awt.Font;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -24,11 +26,14 @@ public class addAcompaniante extends javax.swing.JDialog {
     public addAcompaniante(java.awt.Frame parent, boolean modal, Parcela parcela, int acompaniantes) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
         cont=1;
         this.acompaniantes=acompaniantes;
         this.parcela=parcela;
-        jLabel1.setText("Acompaniantes " + cont + " de " + this.acompaniantes);
-        LabelSistema.setText(this.parcela.toString());
+        this.setTitle("Alquilar Bungalow");
+        jLabel1.setText("Acompa\u00f1ante " + cont + " de " + this.acompaniantes);
+        LabelSistema.setFont(new Font("Tahoma",Font.BOLD, 12));
     }
 
     /**
@@ -60,14 +65,22 @@ public class addAcompaniante extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Aharoni", 1, 24)); // NOI18N
-        jLabel1.setText("Alquiler Parcela");
+        PanelSuperior.setBackground(new java.awt.Color(153, 255, 204));
+
+        jLabel1.setFont(new java.awt.Font("Cooper Black", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel1.setText("DATOS CLIENTE");
         PanelSuperior.add(jLabel1);
 
         getContentPane().add(PanelSuperior, java.awt.BorderLayout.PAGE_START);
 
+        PanelInferior.setBackground(new java.awt.Color(153, 255, 204));
         PanelInferior.setLayout(new java.awt.BorderLayout());
 
+        jPanel1.setBackground(new java.awt.Color(153, 255, 204));
+
+        BotonConfirmar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        BotonConfirmar.setForeground(new java.awt.Color(0, 153, 153));
         BotonConfirmar.setText("Confirmar");
         BotonConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -76,6 +89,8 @@ public class addAcompaniante extends javax.swing.JDialog {
         });
         jPanel1.add(BotonConfirmar);
 
+        BotonCancelar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        BotonCancelar.setForeground(new java.awt.Color(0, 153, 153));
         BotonCancelar.setText("Cancelar");
         BotonCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,37 +101,61 @@ public class addAcompaniante extends javax.swing.JDialog {
 
         PanelInferior.add(jPanel1, java.awt.BorderLayout.CENTER);
 
+        jPanel2.setBackground(new java.awt.Color(153, 255, 204));
+        jPanel2.setForeground(new java.awt.Color(0, 153, 153));
+
+        LabelSistema.setForeground(new java.awt.Color(0, 153, 153));
         jPanel2.add(LabelSistema);
 
         PanelInferior.add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
         getContentPane().add(PanelInferior, java.awt.BorderLayout.PAGE_END);
 
+        PanelCentral.setBackground(new java.awt.Color(153, 255, 204));
         PanelCentral.setLayout(new java.awt.GridLayout(4, 2, 50, 10));
 
+        LabelNombre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        LabelNombre.setForeground(new java.awt.Color(0, 153, 153));
         LabelNombre.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         LabelNombre.setLabelFor(TextNombre);
         LabelNombre.setText("Nombre:");
         PanelCentral.add(LabelNombre);
+
+        TextNombre.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        TextNombre.setForeground(new java.awt.Color(0, 153, 153));
         PanelCentral.add(TextNombre);
 
+        LabelTelefono.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        LabelTelefono.setForeground(new java.awt.Color(0, 153, 153));
         LabelTelefono.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         LabelTelefono.setLabelFor(TextTelefono);
         LabelTelefono.setText("Telefono:");
         PanelCentral.add(LabelTelefono);
+
+        TextTelefono.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        TextTelefono.setForeground(new java.awt.Color(0, 153, 153));
         PanelCentral.add(TextTelefono);
 
+        LabelDNI.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        LabelDNI.setForeground(new java.awt.Color(0, 153, 153));
         LabelDNI.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         LabelDNI.setLabelFor(TextDNI);
         LabelDNI.setText("DNI:");
         PanelCentral.add(LabelDNI);
+
+        TextDNI.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        TextDNI.setForeground(new java.awt.Color(0, 153, 153));
         PanelCentral.add(TextDNI);
 
+        LabelFecha.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        LabelFecha.setForeground(new java.awt.Color(0, 153, 153));
         LabelFecha.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         LabelFecha.setLabelFor(TextFecha);
         LabelFecha.setText("Fecha de Nacimiento:");
         PanelCentral.add(LabelFecha);
 
+        TextFecha.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        TextFecha.setForeground(new java.awt.Color(0, 153, 153));
         TextFecha.setText("aaaa-mm-dd");
         TextFecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,6 +194,11 @@ public class addAcompaniante extends javax.swing.JDialog {
             if(!comprobarEdad(fecNac)) throw new EdadInvalidaException();
         }catch(Exception e){
             LabelSistema.setText(e.getMessage());
+            LabelSistema.setForeground(Color.red);
+            TextDNI.setText("11111111A");
+            TextNombre.setText("");
+            TextTelefono.setText("");
+            TextFecha.setText("aaaa-mm-dd");
             correcto=false;
         }finally{
             if(correcto){
