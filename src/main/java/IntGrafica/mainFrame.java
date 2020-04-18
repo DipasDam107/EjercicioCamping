@@ -115,6 +115,7 @@ public class mainFrame extends javax.swing.JFrame {
             }
             if (parcela.isOcupado()) {
                 ((JButton) evt.getSource()).setBackground(Color.red);
+                JOptionPane.showMessageDialog(this, "Se ha alquilado la parcela numero " + parcela.getNumero() + " al cliente " + parcela.getCliente().getNombre(), "Aviso",JOptionPane.INFORMATION_MESSAGE);
                 guardarCamping(parcelas);
             }
         }
