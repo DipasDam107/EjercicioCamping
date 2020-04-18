@@ -95,7 +95,7 @@ public class mainFrame extends javax.swing.JFrame {
                         JOptionPane.showConfirmDialog(null, "Se ha producido un error en el checkout", "Error",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
                     }else{
-                    JOptionPane.showConfirmDialog(null, "Se ha procedido al checkout. El importe asciende a " + importe + " €", "Check Out Exitoso",
+                    JOptionPane.showConfirmDialog(null, "Se ha procedido al checkout de la parcela "+ parcela.getNumero()+". El importe asciende a " + importe + " €", "Check Out Exitoso",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
                         if (!parcela.isOcupado()) {
                             ((JButton) evt.getSource()).setBackground(Color.lightGray);
