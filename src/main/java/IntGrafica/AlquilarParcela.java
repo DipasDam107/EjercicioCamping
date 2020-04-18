@@ -196,7 +196,7 @@ public class AlquilarParcela extends javax.swing.JDialog {
             dni=TextDNI.getText();
             if(!comprobarDNI(dni)) throw new DNIException();
             fecNac=TextFecha.getText();
-            if(!comprobarEdad(fecNac)) throw new EdadInvalidaException();
+            if(!comprobarEdadCliente(fecNac)) throw new EdadInvalidaException();
         }catch(Exception e){
             LabelSistema.setText(e.getMessage());
             LabelSistema.setForeground(Color.red);

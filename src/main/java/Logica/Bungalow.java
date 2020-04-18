@@ -2,7 +2,6 @@ package Logica;
 
 import Parametros.Param;
 import java.util.ArrayList;
-import static Logica.cosas.*;
 import static Ficheros.Ficheros.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

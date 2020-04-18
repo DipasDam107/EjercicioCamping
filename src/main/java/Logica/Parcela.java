@@ -2,7 +2,6 @@ package Logica;
 
 import Parametros.Param;
 import java.time.LocalDateTime;
-import static Logica.cosas.*;
 import java.io.Serializable;
 
 public abstract class Parcela implements iAlquilable, Serializable {

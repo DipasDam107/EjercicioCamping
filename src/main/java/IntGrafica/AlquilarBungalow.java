@@ -199,7 +199,7 @@ public class AlquilarBungalow extends javax.swing.JDialog {
             dni=TextDNI.getText();
             if(!comprobarDNI(dni)) throw new DNIException();
             fecNac=TextFecha.getText();
-            if(!comprobarEdad(fecNac)) throw new EdadInvalidaException();
+            if(!comprobarEdadCliente(fecNac)) throw new EdadInvalidaException();
             acompaniantes=TextAcomp.getText();
             if(!comprobarNumPersonas(acompaniantes, param)) throw new NumPersonasException();
             

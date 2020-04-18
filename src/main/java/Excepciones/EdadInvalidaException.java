@@ -10,6 +10,7 @@ package Excepciones;
  * @author User
  */
 public class EdadInvalidaException extends Exception {
+    @Override
     public String getMessage() {
         return "Fecha de nacimiento no valida";
     }
